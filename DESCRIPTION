@@ -16,3 +16,5 @@ Imports:
     magrittr,
     dplyr,
     purrr
+URL: https://github.com/EmilHvitfeldt/methcon5
+BugReports: https://github.com/EmilHvitfeldt/methcon5/issues
