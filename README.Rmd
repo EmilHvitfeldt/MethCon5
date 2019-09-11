@@ -50,9 +50,9 @@ genes <- sample(1:10, n, replace = TRUE)
 sample_data <- tibble(gene = rep(seq_len(n), times = genes),
                       cons_level = rep(sample(c("low", "medium", "high"), n, TRUE), times = genes)) %>%
   group_by(cons_level) %>%
-  mutate(meth = case_when(cons_level == "low" ~ runif(n(), 0, 0.5),
-                          cons_level == "medium" ~ runif(n(), 0.2, 0.8),
-                          cons_level == "high" ~ runif(n(), 0.5, 1)))
+  mutate(meth = case_when(cons_level == "low" ~ rbeta(n(), 2, 5),
+                          cons_level == "medium" ~ rbeta(n(), 2, 2),
+                          cons_level == "high" ~ rbeta(n(), 5, 2)))
 ```
 
 

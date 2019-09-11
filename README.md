@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# methcon5
+# MethCon5
 
 <!-- badges: start -->
 
@@ -54,9 +54,9 @@ genes <- sample(1:10, n, replace = TRUE)
 sample_data <- tibble(gene = rep(seq_len(n), times = genes),
                       cons_level = rep(sample(c("low", "medium", "high"), n, TRUE), times = genes)) %>%
   group_by(cons_level) %>%
-  mutate(meth = case_when(cons_level == "low" ~ runif(n(), 0, 0.5),
-                          cons_level == "medium" ~ runif(n(), 0.2, 0.8),
-                          cons_level == "high" ~ runif(n(), 0.5, 1)))
+  mutate(meth = case_when(cons_level == "low" ~ rbeta(n(), 2, 5),
+                          cons_level == "medium" ~ rbeta(n(), 2, 2),
+                          cons_level == "high" ~ rbeta(n(), 5, 2)))
 ```
 
 ``` r
@@ -67,16 +67,16 @@ sample_ii
 #> # A tibble: 500 x 3
 #>     gene value length
 #>    <int> <dbl>  <int>
-#>  1     1 0.652      5
-#>  2     2 0.233     10
-#>  3     3 0.626      5
-#>  4     4 0.784      3
-#>  5     5 0.753      8
-#>  6     6 0.796      1
-#>  7     7 0.465      3
-#>  8     8 0.617      7
-#>  9     9 0.475      6
-#> 10    10 0.162      9
+#>  1     1 0.574      8
+#>  2     2 0.769      6
+#>  3     3 0.500      6
+#>  4     4 0.891      3
+#>  5     5 0.493     10
+#>  6     6 0.698      9
+#>  7     7 0.119      3
+#>  8     8 0.519      9
+#>  9     9 0.291      9
+#> 10    10 0.541      7
 #> # … with 490 more rows
 ```
 
