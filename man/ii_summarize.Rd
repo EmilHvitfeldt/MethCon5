@@ -4,7 +4,7 @@
 \alias{ii_summarize}
 \title{Aggregated}
 \usage{
-ii_summarize(data, id, value)
+ii_summarize(data, id, value, fun = mean)
 }
 \arguments{
 \item{data}{a data.frame}
@@ -12,6 +12,9 @@ ii_summarize(data, id, value)
 \item{id}{variable name, to be aggregated around}
 
 \item{value}{variable name, contains the value to take mean over}
+
+\item{fun}{function, summary statistic function  to be calculated. Defaults
+to `mean`.}
 }
 \value{
 data.frame
