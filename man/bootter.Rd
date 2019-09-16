@@ -4,18 +4,21 @@
 \alias{bootter}
 \title{Bootsrapped randomly samples values}
 \usage{
-bootter(data, data_full, value, id, reps)
+bootter(data, data_full, value, id, reps, method = 1)
 }
 \arguments{
 \item{data}{a data.frame with data summaries by a variable.}
 
-\item{data_full}{a data.frame which is the unsummaried version of data.}
+\item{data_full}{a data.frame which is the unsummaried version of data. The
+assumption that data_full is sorted is taken.}
 
 \item{value}{variable name, contains the value to take mean over}
 
 \item{id}{variable name, to be aggregated around}
 
 \item{reps}{Number of reps, defaults to 1000}
+
+\item{method}{Integer, determining which method to use.}
 }
 \value{
 a data.frame

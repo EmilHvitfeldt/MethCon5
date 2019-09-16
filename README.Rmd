@@ -20,6 +20,8 @@ knitr::opts_chunk$set(
 
 The goal of methcon5 is to identify and rank CpG DNA methylation conservation along the human genome. Specifically it includes bootstrapping methods to provide ranking which should adjust for the differences in length as without it short regions tend to get higher conservation scores.
 
+The following [repository](https://github.com/EmilHvitfeldt/Epigenetic-Conservation-Is-A-Beacon-Of-Function) includes analysis in which this package was used.
+
 ## Installation
 
 Please note that the name of the package is in all lowercase.  
@@ -43,6 +45,7 @@ Below is some sample data where we have created 500 genes with 1 to 10 sites eac
 ```{r}
 library(methcon5)
 library(dplyr)
+set.seed(1234)
 n <- 500
 
 genes <- sample(1:10, n, replace = TRUE)
@@ -55,15 +58,37 @@ sample_data <- tibble(gene = rep(seq_len(n), times = genes),
                           cons_level == "high" ~ rbeta(n(), 5, 2)))
 ```
 
+First we apply the `ii_summarize` function. This will take the columns specified in `value` and and apply the `fun` stratified according to `id`. In this case we want to calculate the mean meth value wihin each gene.
 
 ```{r}
 sample_ii <- sample_data %>%
-  ii_summarize(gene, meth) 
+  ii_summarize(id = gene, value =  meth, fun = mean) 
 
 sample_ii
 ```
 
+Next we use the `bootter` function. This will take the summarized data.frame caclulated earlier along with the original dataset. The function with return the original data.frame with the new coloumn attached to the end, which makes it ideal for piping to apply different methods to the same data.
+
 ```{r}
-ddd <- boot_index(sample_data, gene, meth, 100)
-hist(ddd$pvalue, breaks = 100)
+adjusted <- bootter(data = sample_ii, 
+                    data_full =  sample_data,
+                    value =  meth,
+                    id = gene, reps = 100) %>%
+            bootter(data_full =  sample_data,
+                    value =  meth,
+                    id = gene, reps = 100, method = 2)
 ```
+
+
+```{r}
+library(ggplot2)
+
+ggplot(adjusted, aes(meth_v1, meth_v2, color = n)) +
+  geom_point() +
+  scale_color_viridis_c() +
+  theme_minimal()
+```
+
+## Funding acknowledgements
+
+We gratefully acknowledge funding from NIH awards 1P01CA196569 and R21 CA226106.

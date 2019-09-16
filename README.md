@@ -13,6 +13,10 @@ bootstrapping methods to provide ranking which should adjust for the
 differences in length as without it short regions tend to get higher
 conservation scores.
 
+The following
+[repository](https://github.com/EmilHvitfeldt/Epigenetic-Conservation-Is-A-Beacon-Of-Function)
+includes analysis in which this package was used.
+
 ## Installation
 
 Please note that the name of the package is in all lowercase.
@@ -47,6 +51,7 @@ library(dplyr)
 #> The following objects are masked from 'package:base':
 #> 
 #>     intersect, setdiff, setequal, union
+set.seed(1234)
 n <- 500
 
 genes <- sample(1:10, n, replace = TRUE)
@@ -59,30 +64,60 @@ sample_data <- tibble(gene = rep(seq_len(n), times = genes),
                           cons_level == "high" ~ rbeta(n(), 5, 2)))
 ```
 
+First we apply the `ii_summarize` function. This will take the columns
+specified in `value` and and apply the `fun` stratified according to
+`id`. In this case we want to calculate the mean meth value wihin each
+gene.
+
 ``` r
 sample_ii <- sample_data %>%
-  ii_summarize(gene, meth) 
+  ii_summarize(id = gene, value =  meth, fun = mean) 
 
 sample_ii
 #> # A tibble: 500 x 3
-#>     gene value length
-#>    <int> <dbl>  <int>
-#>  1     1 0.574      8
-#>  2     2 0.769      6
-#>  3     3 0.500      6
-#>  4     4 0.891      3
-#>  5     5 0.493     10
-#>  6     6 0.698      9
-#>  7     7 0.119      3
-#>  8     8 0.519      9
-#>  9     9 0.291      9
-#> 10    10 0.541      7
+#>     gene  meth     n
+#>    <int> <dbl> <int>
+#>  1     1 0.509    10
+#>  2     2 0.817     6
+#>  3     3 0.577     5
+#>  4     4 0.279     9
+#>  5     5 0.318     5
+#>  6     6 0.427     6
+#>  7     7 0.736     4
+#>  8     8 0.546     2
+#>  9     9 0.328     7
+#> 10    10 0.202     6
 #> # … with 490 more rows
 ```
 
+Next we use the `bootter` function. This will take the summarized
+data.frame caclulated earlier along with the original dataset. The
+function with return the original data.frame with the new coloumn
+attached to the end, which makes it ideal for piping to apply different
+methods to the same data.
+
 ``` r
-ddd <- boot_index(sample_data, gene, meth, 100)
-hist(ddd$pvalue, breaks = 100)
+adjusted <- bootter(data = sample_ii, 
+                    data_full =  sample_data,
+                    value =  meth,
+                    id = gene, reps = 100) %>%
+            bootter(data_full =  sample_data,
+                    value =  meth,
+                    id = gene, reps = 100, method = 2)
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+``` r
+library(ggplot2)
+
+ggplot(adjusted, aes(meth_v1, meth_v2, color = n)) +
+  geom_point() +
+  scale_color_viridis_c() +
+  theme_minimal()
+```
+
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+
+## Funding acknowledgements
+
+We gratefully acknowledge funding from NIH awards 1P01CA196569 and R21
+CA226106.
