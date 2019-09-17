@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![Travis build status](https://travis-ci.org/EmilHvitfeldt/methcon5.svg?branch=master)](https://travis-ci.org/EmilHvitfeldt/methcon5)
+[![Codecov test coverage](https://codecov.io/gh/EmilHvitfeldt/methcon5/branch/master/graph/badge.svg)](https://codecov.io/gh/EmilHvitfeldt/methcon5?branch=master)
 <!-- badges: end -->
 
 The goal of methcon5 is to identify and rank CpG DNA methylation conservation along the human genome. Specifically it includes bootstrapping methods to provide ranking which should adjust for the differences in length as without it short regions tend to get higher conservation scores.
