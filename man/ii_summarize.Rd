@@ -4,7 +4,7 @@
 \alias{ii_summarize}
 \title{Aggregated}
 \usage{
-ii_summarize(data, id, value, fun = mean)
+ii_summarize(data, id, value, fun = mean, ...)
 }
 \arguments{
 \item{data}{a data.frame}
@@ -15,6 +15,8 @@ ii_summarize(data, id, value, fun = mean)
 
 \item{fun}{function, summary statistic function  to be calculated. Defaults
 to `mean`.}
+
+\item{...}{Additional arguments for the function given to the argument fun.}
 }
 \value{
 data.frame
