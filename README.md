@@ -7,6 +7,8 @@
 
 [![Travis build
 status](https://travis-ci.org/EmilHvitfeldt/methcon5.svg?branch=master)](https://travis-ci.org/EmilHvitfeldt/methcon5)
+[![Codecov test
+coverage](https://codecov.io/gh/EmilHvitfeldt/methcon5/branch/master/graph/badge.svg)](https://codecov.io/gh/EmilHvitfeldt/methcon5?branch=master)
 <!-- badges: end -->
 
 The goal of methcon5 is to identify and rank CpG DNA methylation
