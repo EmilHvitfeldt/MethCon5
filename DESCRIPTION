@@ -1,5 +1,5 @@
 Package: methcon5
-Title: What the Package Does (One Line, Title Case)
+Title: identify and Rank CpG DNA Methylation Conservation Along the Human Genome
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Emil",
@@ -7,7 +7,10 @@ Authors@R:
            role = c("aut", "cre"),
            email = "emilhhvitfeldt@gmail.com",
            comment = c(ORCID = "0000-0002-0679-1945"))
-Description: What the package does (one paragraph).
+Description: Identify and rank CpG DNA methylation conservation along the human 
+    genome. Specifically it includes bootstrapping methods to provide ranking 
+    which should adjust for the differences in length as without it short 
+    regions tend to get higher conservation scores.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
