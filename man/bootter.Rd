@@ -4,7 +4,14 @@
 \alias{bootter}
 \title{Bootstrapped randomly samples values}
 \usage{
-bootter(data, data_full, value, id, reps, method = 1)
+bootter(
+  data,
+  data_full,
+  value,
+  id,
+  reps,
+  method = c("perm_v1", "perm_v2", "perm_v3")
+)
 }
 \arguments{
 \item{data}{a data.frame with data summaries by a variable.}
@@ -18,11 +25,16 @@ assumption that data_full is sorted is taken.}
 
 \item{reps}{Number of reps, defaults to 1000}
 
-\item{method}{Integer, determining which method to use.}
+\item{method}{Character, determining which method to use. See details for
+information about methods. Defauls to "perm_v1".}
 }
 \value{
 a data.frame
 }
 \description{
-Bootstrapped randomly samples values
+"perm_v1" (the default method) will sample the variables the rows
+independently. "perm_v2" will sample regions of same size while allowing
+overlap between different regions. "perm_v3" will sample regions under the
+constraint that all sampled regions are contained in the region they are
+sampled in.
 }

@@ -44,7 +44,7 @@ devtools::install_github("EmilHvitfeldt/methcon5")
 
 Below is some sample data where we have created 500 genes with 1 to 10 sites each. Then
 
-```{r}
+```{r, message=FALSE}
 library(methcon5)
 library(dplyr)
 set.seed(1234)
@@ -78,14 +78,18 @@ adjusted <- bootter(data = sample_ii,
                     id = gene, reps = 100) %>%
             bootter(data_full =  sample_data,
                     value =  meth,
-                    id = gene, reps = 100, method = 2)
+                    id = gene, reps = 100, method = "perm_v2") %>%
+            bootter(data_full =  sample_data,
+                    value =  meth,
+                    id = gene, reps = 100, method = "perm_v3")
+adjusted
 ```
 
 
 ```{r}
 library(ggplot2)
 
-ggplot(adjusted, aes(meth_v1, meth_v2, color = n)) +
+ggplot(adjusted, aes(meth_perm_v1, meth_perm_v2, color = n)) +
   geom_point() +
   scale_color_viridis_c() +
   theme_minimal()

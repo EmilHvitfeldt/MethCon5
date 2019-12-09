@@ -47,14 +47,6 @@ sites each. Then
 ``` r
 library(methcon5)
 library(dplyr)
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
 set.seed(1234)
 n <- 500
 
@@ -107,13 +99,28 @@ adjusted <- bootter(data = sample_ii,
                     id = gene, reps = 100) %>%
             bootter(data_full =  sample_data,
                     value =  meth,
-                    id = gene, reps = 100, method = 2)
+                    id = gene, reps = 100, method = "perm_v2")
+adjusted
+#> # A tibble: 500 x 5
+#>     gene  meth     n meth_perm_v1 meth_perm_v2
+#>    <int> <dbl> <int>        <dbl>        <dbl>
+#>  1     1 0.509    10         0.43         0.46
+#>  2     2 0.817     6         0            0   
+#>  3     3 0.577     5         0.27         0.35
+#>  4     4 0.279     9         1            0.93
+#>  5     5 0.318     5         0.98         0.86
+#>  6     6 0.427     6         0.74         0.65
+#>  7     7 0.736     4         0.02         0.16
+#>  8     8 0.546     2         0.37         0.44
+#>  9     9 0.328     7         0.99         0.84
+#> 10    10 0.202     6         1            0.99
+#> # … with 490 more rows
 ```
 
 ``` r
 library(ggplot2)
 
-ggplot(adjusted, aes(meth_v1, meth_v2, color = n)) +
+ggplot(adjusted, aes(meth_perm_v1, meth_perm_v2, color = n)) +
   geom_point() +
   scale_color_viridis_c() +
   theme_minimal()
