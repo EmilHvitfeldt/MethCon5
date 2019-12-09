@@ -2,14 +2,14 @@
 % Please edit documentation in R/bootter.R
 \name{bootter}
 \alias{bootter}
-\title{Bootsrapped randomly samples values}
+\title{Bootstrapped randomly samples values}
 \usage{
 bootter(data, data_full, value, id, reps, method = 1)
 }
 \arguments{
 \item{data}{a data.frame with data summaries by a variable.}
 
-\item{data_full}{a data.frame which is the unsummaried version of data. The
+\item{data_full}{a data.frame which is the unsummarized version of data. The
 assumption that data_full is sorted is taken.}
 
 \item{value}{variable name, contains the value to take mean over}
@@ -24,5 +24,5 @@ assumption that data_full is sorted is taken.}
 a data.frame
 }
 \description{
-Bootsrapped randomly samples values
+Bootstrapped randomly samples values
 }

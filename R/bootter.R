@@ -1,7 +1,7 @@
-#' Bootsrapped randomly samples values
+#' Bootstrapped randomly samples values
 #'
 #' @param data a data.frame with data summaries by a variable.
-#' @param data_full a data.frame which is the unsummaried version of data. The
+#' @param data_full a data.frame which is the unsummarized version of data. The
 #'  assumption that data_full is sorted is taken.
 #' @param id variable name, to be aggregated around
 #' @param value variable name, contains the value to take mean over

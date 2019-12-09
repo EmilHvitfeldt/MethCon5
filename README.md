@@ -70,7 +70,7 @@ sample_data <- tibble(gene = rep(seq_len(n), times = genes),
 
 First we apply the `ii_summarize` function. This will take the columns
 specified in `value` and and apply the `fun` stratified according to
-`id`. In this case we want to calculate the mean meth value wihin each
+`id`. In this case we want to calculate the mean meth value within each
 gene.
 
 ``` r
@@ -95,8 +95,8 @@ sample_ii
 ```
 
 Next we use the `bootter` function. This will take the summarized
-data.frame caclulated earlier along with the original dataset. The
-function with return the original data.frame with the new coloumn
+data.frame calculated earlier along with the original dataset. The
+function with return the original data.frame with the new column
 attached to the end, which makes it ideal for piping to apply different
 methods to the same data.
 
