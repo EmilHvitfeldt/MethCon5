@@ -10,7 +10,7 @@
 #' @importFrom rlang .data
 #' @return data.frame
 #' @export
-ii_summarize <- function(data, id, value, fun = mean, ...) {
+meth_aggregate <- function(data, id, value, fun = mean, ...) {
   grouped_data <- data %>%
     dplyr::filter(!is.na({{id}})) %>%
     dplyr::group_by({{id}})

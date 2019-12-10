@@ -14,13 +14,13 @@
 #' @return a data.frame
 #' @importFrom rlang :=
 #' @export
-bootter <- function(data, reps,
+meth_bootstrap <- function(data, reps,
                     method = c("perm_v1", "perm_v2", "perm_v3")) {
-  UseMethod("bootter")
+  UseMethod("meth_bootstrap")
 }
 
 #' @export
-bootter.methcon <- function(data, reps,
+meth_bootstrap.methcon <- function(data, reps,
                             method = c("perm_v1", "perm_v2", "perm_v3")) {
 
   lengths <- sort(unique(data$n))
@@ -61,7 +61,7 @@ bootter.methcon <- function(data, reps,
 }
 
 #' @export
-bootter.default <- function(data, reps,
+meth_bootstrap.default <- function(data, reps,
                             method = c("perm_v1", "perm_v2", "perm_v3")) {
   stop("`data` must be a `methcon` object.")
 }

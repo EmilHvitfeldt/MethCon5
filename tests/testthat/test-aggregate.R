@@ -4,7 +4,7 @@ data <- data.frame(x = c(1, 1, 1, 2, 2, 3, 3, 3, 3, 4),
                    z = c(0, 9, 8, 7, 6, 5, 4, 3, 2, 1))
 
 test_that("Base function work", {
-  data_sum <- ii_summarize(data, x, y)
+  data_sum <- meth_aggregate(data, x, y)
 
   expect_equal(dim(data_sum), c(length(unique(data$x)), 3))
   expect_equal(data_sum$n, tabulate(data$x))
@@ -13,17 +13,17 @@ test_that("Base function work", {
 })
 
 test_that("doens't work with multiple selections", {
-  expect_error(ii_summarize(data, x, y:z))
+  expect_error(meth_aggregate(data, x, y:z))
 })
 
 test_that("works with custom functions", {
-  data_sum <- ii_summarize(data, x, y, fun = min)
+  data_sum <- meth_aggregate(data, x, y, fun = min)
 
   expect_equal(dim(data_sum), c(length(unique(data$x)), 3))
   expect_equal(data_sum$y, vapply(split(data$y, data$x), min,
                                   FUN.VALUE = numeric(1), USE.NAMES = FALSE))
 
-  data_sum <- ii_summarize(data, x, y, fun = min, na.rm = TRUE)
+  data_sum <- meth_aggregate(data, x, y, fun = min, na.rm = TRUE)
 
   expect_equal(dim(data_sum), c(length(unique(data$x)), 3))
   expect_equal(data_sum$y, vapply(split(data$y, data$x), min,

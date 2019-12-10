@@ -20,9 +20,9 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/EmilHvitfeldt/methcon5/branch/master/graph/badge.svg)](https://codecov.io/gh/EmilHvitfeldt/methcon5?branch=master)
 <!-- badges: end -->
 
-The goal of methcon5 is to identify and rank CpG DNA methylation conservation along the human genome. Specifically it includes bootstrapping methods to provide ranking which should adjust for the differences in length as without it short regions tend to get higher conservation scores.
+The goal of methcon5 is to identify and rank CpG DNA methylation conservation along the human genome. Specifically, it includes bootstrapping methods to provide ranking which should adjust for the differences in length as without it short regions tend to get higher conservation scores.
 
-The following [repository](https://github.com/EmilHvitfeldt/Epigenetic-Conservation-Is-A-Beacon-Of-Function) includes analysis in which this package was used.
+The following [repository](https://github.com/EmilHvitfeldt/Epigenetic-Conservation-Is-A-Beacon-Of-Function) includes an analysis in which this package was used.
 
 ## Installation
 
@@ -42,41 +42,23 @@ devtools::install_github("EmilHvitfeldt/methcon5")
 ```
 ## Example
 
-Below is some sample data where we have created 500 genes with 1 to 10 sites each. Then
-
-```{r, message=FALSE}
-library(methcon5)
-library(dplyr)
-set.seed(1234)
-n <- 500
-
-genes <- sample(1:10, n, replace = TRUE)
-
-sample_data <- tibble(gene = rep(seq_len(n), times = genes),
-                      cons_level = rep(sample(c("low", "medium", "high"), n, TRUE), times = genes)) %>%
-  group_by(cons_level) %>%
-  mutate(meth = case_when(cons_level == "low" ~ rbeta(n(), 2, 5),
-                          cons_level == "medium" ~ rbeta(n(), 2, 2),
-                          cons_level == "high" ~ rbeta(n(), 5, 2)))
-sample_data
-```
-
-First we apply the `ii_summarize` function. This will take the columns specified in `value` and and apply the `fun` stratified according to `id`. In this case we want to calculate the mean meth value within each gene.
+First we apply the `meth_aggregate()` function to the included example dataset `fake_methylation`. This will take the columns specified in `value` and apply the `fun` stratified according to `id`. In this case, we want to calculate the mean meth value within each gene.
 
 ```{r}
-sample_ii <- sample_data %>%
-  ii_summarize(id = gene, value = meth, fun = mean) 
+library(methcon5)
+sample_ii <- fake_methylation %>%
+  meth_aggregate(id = gene, value = meth, fun = mean) 
 
 sample_ii
 ```
 
-Next we use the `bootter` function. This will take the summarized data.frame calculated earlier along with the original dataset. The function with return the original data.frame with the new column attached to the end, which makes it ideal for piping to apply different methods to the same data.
+Next we use the `meth_bootstrap()` function. This will take the summarized data.frame calculated earlier along with the original dataset. The function with return the original data.frame with the new column attached to the end, which makes it ideal for piping to apply different methods to the same data.
 
 ```{r}
 adjusted <- sample_ii %>%
-  bootter(reps = 100) %>%
-  bootter(reps = 100, method = "perm_v2") %>%
-  bootter(reps = 100, method = "perm_v3")
+  meth_bootstrap(reps = 100) %>%
+  meth_bootstrap(reps = 100, method = "perm_v2") %>%
+  meth_bootstrap(reps = 100, method = "perm_v3")
 adjusted
 ```
 
@@ -90,6 +72,6 @@ ggplot(adjusted, aes(meth_perm_v1, meth_perm_v2, color = n)) +
   theme_minimal()
 ```
 
-## Funding acknowledgements
+## Funding acknowledgments
 
 We gratefully acknowledge funding from NIH awards 1P01CA196569 and R21 CA226106.
