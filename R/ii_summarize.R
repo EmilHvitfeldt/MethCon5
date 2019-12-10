@@ -15,8 +15,14 @@ ii_summarize <- function(data, id, value, fun = mean, ...) {
     dplyr::filter(!is.na({{id}})) %>%
     dplyr::group_by({{id}})
 
-  dplyr::bind_cols(
-    dplyr::summarise_at(grouped_data, dplyr::vars({{value}}), fun, ...),
-    dplyr::count(grouped_data) %>% dplyr::ungroup() %>% dplyr::select(.data$n)
+  structure(
+    dplyr::bind_cols(
+      dplyr::summarise_at(grouped_data, dplyr::vars({{value}}), fun, ...),
+      dplyr::count(grouped_data) %>% dplyr::ungroup() %>% dplyr::select(.data$n)
+    ),
+    class = c("methcon", "tbl_df", "tbl", "data.frame"),
+    .full_data = data,
+    .id = rlang::ensym(id),
+    .value = rlang::ensym(value)
   )
 }

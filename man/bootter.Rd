@@ -4,24 +4,10 @@
 \alias{bootter}
 \title{Bootstrapped randomly samples values}
 \usage{
-bootter(
-  data,
-  data_full,
-  value,
-  id,
-  reps,
-  method = c("perm_v1", "perm_v2", "perm_v3")
-)
+bootter(data, reps, method = c("perm_v1", "perm_v2", "perm_v3"))
 }
 \arguments{
-\item{data}{a data.frame with data summaries by a variable.}
-
-\item{data_full}{a data.frame which is the unsummarized version of data. The
-assumption that data_full is sorted is taken.}
-
-\item{value}{variable name, contains the value to take mean over}
-
-\item{id}{variable name, to be aggregated around}
+\item{data}{a methcon data.frame output from ii_sumarize().}
 
 \item{reps}{Number of reps, defaults to 1000}
 

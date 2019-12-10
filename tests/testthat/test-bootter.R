@@ -7,7 +7,7 @@ test_that("Output size for bootter", {
     res_sum <- data %>%
       ii_summarize(x, y)
     res_boot <- res_sum %>%
-      bootter(data, y, x, 10, method = i)
+      bootter(10, method = i)
 
     expect_equal(nrow(res_sum), nrow(res_boot))
     expect_equal(ncol(res_sum) + 1, ncol(res_boot))

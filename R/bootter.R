@@ -6,11 +6,7 @@
 #' constraint that all sampled regions are contained in the region they are
 #' sampled in.
 #'
-#' @param data a data.frame with data summaries by a variable.
-#' @param data_full a data.frame which is the unsummarized version of data. The
-#'  assumption that data_full is sorted is taken.
-#' @param id variable name, to be aggregated around
-#' @param value variable name, contains the value to take mean over
+#' @param data a methcon data.frame output from ii_sumarize().
 #' @param reps Number of reps, defaults to 1000
 #' @param method Character, determining which method to use. See details for
 #'   information about methods. Defauls to "perm_v1".
@@ -18,33 +14,40 @@
 #' @return a data.frame
 #' @importFrom rlang :=
 #' @export
-bootter <- function(data, data_full, value, id, reps,
+bootter <- function(data, reps,
                     method = c("perm_v1", "perm_v2", "perm_v3")) {
+  UseMethod("bootter")
+}
+
+#' @export
+bootter.methcon <- function(data, reps,
+                            method = c("perm_v1", "perm_v2", "perm_v3")) {
 
   lengths <- sort(unique(data$n))
 
-  big_data <- data_full %>%
-    dplyr::filter(!is.na({{id}}))
+  data_full <- attr(data, ".full_data")
+  value <- attr(data, ".value")
+  id <- attr(data, ".id")
 
   method <- match.arg(method)
   varname <- paste0(rlang::as_name(rlang::ensym(value)), "_", method)
 
   if(method == "perm_v1") {
-    values <- perm_v1(pwd = dplyr::pull(data, {{value}}),
+    values <- perm_v1(pwd = data[[value]],
                       n = data$n,
-                      full_sites = dplyr::pull(data_full, {{value}}),
+                      full_sites = data_full[[value]],
                       n_rep = reps,
                       lengths = lengths)
   }
   if(method == "perm_v2") {
-    values <- perm_v2(pwd = dplyr::pull(data, {{value}}),
+    values <- perm_v2(pwd = data[[value]],
                       n = data$n,
-                      full_sites = dplyr::pull(data_full, {{value}}),
+                      full_sites = data_full[[value]],
                       n_rep = reps,
                       lengths = lengths)
   }
   if(method == "perm_v3") {
-    values <- perm_v3(pwd = dplyr::pull(data, {{value}}),
+    values <- perm_v3(pwd = data[[value]],
                       n = data$n,
                       full_sites = data_full,
                       n_rep = reps,
@@ -53,6 +56,12 @@ bootter <- function(data, data_full, value, id, reps,
                       value = {{value}})
   }
 
-  data %>%
-    dplyr::mutate(!!varname := values)
+  data[[varname]] <- values
+  data
+}
+
+#' @export
+bootter.default <- function(data, reps,
+                            method = c("perm_v1", "perm_v2", "perm_v3")) {
+  stop("`data` must be a `methcon` object.")
 }

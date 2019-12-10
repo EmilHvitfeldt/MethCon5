@@ -12,15 +12,8 @@ test_that("Base function work", {
                                   FUN.VALUE = numeric(1), USE.NAMES = FALSE))
 })
 
-test_that("works with multiple selections", {
-  data_sum <- ii_summarize(data, x, y:z)
-
-  expect_equal(dim(data_sum), c(length(unique(data$x)), 4))
-  expect_equal(data_sum$n, tabulate(data$x))
-  expect_equal(data_sum$y, vapply(split(data$y, data$x), mean,
-                                  FUN.VALUE = numeric(1), USE.NAMES = FALSE))
-  expect_equal(data_sum$z, vapply(split(data$z, data$x), mean,
-                                  FUN.VALUE = numeric(1), USE.NAMES = FALSE))
+test_that("doens't work with multiple selections", {
+  expect_error(ii_summarize(data, x, y:z))
 })
 
 test_that("works with custom functions", {
