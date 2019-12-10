@@ -32,21 +32,21 @@ bootter.methcon <- function(data, reps,
   method <- match.arg(method)
   varname <- paste0(rlang::as_name(rlang::ensym(value)), "_", method)
 
-  if(method == "perm_v1") {
+  if (method == "perm_v1") {
     values <- perm_v1(pwd = data[[value]],
                       n = data$n,
                       full_sites = data_full[[value]],
                       n_rep = reps,
                       lengths = lengths)
   }
-  if(method == "perm_v2") {
+  if (method == "perm_v2") {
     values <- perm_v2(pwd = data[[value]],
                       n = data$n,
                       full_sites = data_full[[value]],
                       n_rep = reps,
                       lengths = lengths)
   }
-  if(method == "perm_v3") {
+  if (method == "perm_v3") {
     values <- perm_v3(pwd = data[[value]],
                       n = data$n,
                       full_sites = data_full,

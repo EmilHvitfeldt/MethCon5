@@ -32,7 +32,10 @@ perm_v3_inner <- function(n, n_rep, data, id, value) {
     dplyr::group_by({{id}}) %>%
     dplyr::mutate(left = dplyr::n() - dplyr::row_number() + 1)
   starting_index <- sample(which(n <= perm3_data$left), n_rep, replace = TRUE)
-  purrr::map_dbl(starting_index, ~ mean(dplyr::pull(perm3_data, {{value}})[.x + seq_len(n) - 1]))
+  purrr::map_dbl(
+    starting_index,
+    ~ mean(dplyr::pull(perm3_data, {{value}})[.x + seq_len(n) - 1])
+  )
 }
 
 #' @importFrom purrr map2_dbl
