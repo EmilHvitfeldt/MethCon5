@@ -2,6 +2,7 @@
 
 S3method(meth_bootstrap,default)
 S3method(meth_bootstrap,methcon)
+S3method(print,methcon)
 export("%>%")
 export(meth_aggregate)
 export(meth_bootstrap)
