@@ -6,13 +6,35 @@
 #' constraint that all sampled regions are contained in the region they are
 #' sampled in.
 #'
-#' @param data a methcon data.frame output from ii_sumarize().
-#' @param reps Number of reps, defaults to 1000
-#' @param method Character, determining which method to use. See details for
-#'   information about methods. Defauls to "perm_v1".
+#' Note that you can apply `meth_bootstrap` multiple times to get values for
+#' different methods.
 #'
-#' @return a data.frame
+#' @param data a methcon data.frame output from `meth_bootstrap`.
+#' @param reps Number of reps, defaults to 1000.
+#' @param method Character, determining which method to use. See details for
+#'   information about methods. Defaults to "perm_v1".
+#'
 #' @importFrom rlang :=
+#' @return A methcon object. Contains the aggregated data along with original
+#'     data.frame and variable selections and bootstrapped values.
+#' @examples
+#' # Note that you likely want to do more than 10 repitions.
+#' # rep = 10 was chosen to have the examples run fast.
+#'
+#' fake_methylation %>%
+#'   meth_aggregate(id = gene, value = meth, fun = mean) %>%
+#'   meth_bootstrap(10)
+#'
+#' fake_methylation %>%
+#'   meth_aggregate(id = gene, value = meth, fun = mean) %>%
+#'   meth_bootstrap(10, method = "perm_v2")
+#'
+#' # Get multiple bootstraps
+#' fake_methylation %>%
+#'   meth_aggregate(id = gene, value = meth, fun = mean) %>%
+#'   meth_bootstrap(10, method = "perm_v1") %>%
+#'   meth_bootstrap(10, method = "perm_v2") %>%
+#'   meth_bootstrap(10, method = "perm_v3")
 #' @export
 meth_bootstrap <- function(data, reps,
                     method = c("perm_v1", "perm_v2", "perm_v3")) {

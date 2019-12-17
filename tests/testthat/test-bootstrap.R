@@ -13,3 +13,14 @@ test_that("Output size for meth_bootstrap", {
     expect_equal(ncol(res_sum) + 1, ncol(res_boot))
   }
 })
+
+test_that("returns methcon object", {
+  for (i in c("perm_v1", "perm_v2", "perm_v3")) {
+    res <- data %>%
+      meth_aggregate(x, y) %>%
+      meth_bootstrap(10, method = i)
+
+    expect_s3_class(res, "methcon")
+  }
+})
+

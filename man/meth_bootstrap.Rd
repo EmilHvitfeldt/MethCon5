@@ -7,15 +7,16 @@
 meth_bootstrap(data, reps, method = c("perm_v1", "perm_v2", "perm_v3"))
 }
 \arguments{
-\item{data}{a methcon data.frame output from ii_sumarize().}
+\item{data}{a methcon data.frame output from `meth_bootstrap`.}
 
-\item{reps}{Number of reps, defaults to 1000}
+\item{reps}{Number of reps, defaults to 1000.}
 
 \item{method}{Character, determining which method to use. See details for
-information about methods. Defauls to "perm_v1".}
+information about methods. Defaults to "perm_v1".}
 }
 \value{
-a data.frame
+A methcon object. Contains the aggregated data along with original
+    data.frame and variable selections and bootstrapped values.
 }
 \description{
 "perm_v1" (the default method) will sample the variables the rows
@@ -23,4 +24,27 @@ independently. "perm_v2" will sample regions of same size while allowing
 overlap between different regions. "perm_v3" will sample regions under the
 constraint that all sampled regions are contained in the region they are
 sampled in.
+}
+\details{
+Note that you can apply `meth_bootstrap` multiple times to get values for
+different methods.
+}
+\examples{
+# Note that you likely want to do more than 10 repitions.
+# rep = 10 was chosen to have the examples run fast.
+
+fake_methylation \%>\%
+  meth_aggregate(id = gene, value = meth, fun = mean) \%>\%
+  meth_bootstrap(10)
+
+fake_methylation \%>\%
+  meth_aggregate(id = gene, value = meth, fun = mean) \%>\%
+  meth_bootstrap(10, method = "perm_v2")
+
+# Get multiple bootstraps
+fake_methylation \%>\%
+  meth_aggregate(id = gene, value = meth, fun = mean) \%>\%
+  meth_bootstrap(10, method = "perm_v1") \%>\%
+  meth_bootstrap(10, method = "perm_v2") \%>\%
+  meth_bootstrap(10, method = "perm_v3")
 }
