@@ -1,5 +1,5 @@
 Package: methcon5
-Title: identify and Rank CpG DNA Methylation Conservation Along the Human Genome
+Title: Identify and Rank CpG DNA Methylation Conservation Along the Human Genome
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Emil",
