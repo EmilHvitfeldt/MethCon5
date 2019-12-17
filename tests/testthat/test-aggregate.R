@@ -10,6 +10,8 @@ test_that("Base function work", {
   expect_equal(data_sum$n, tabulate(data$x))
   expect_equal(data_sum$y, vapply(split(data$y, data$x), mean,
                                   FUN.VALUE = numeric(1), USE.NAMES = FALSE))
+
+  expect_s3_class(data_sum, "methcon")
 })
 
 test_that("doens't work with multiple selections", {

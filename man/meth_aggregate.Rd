@@ -2,25 +2,44 @@
 % Please edit documentation in R/aggregate.R
 \name{meth_aggregate}
 \alias{meth_aggregate}
-\title{Aggregated}
+\title{Calculate region wise summary statistics}
 \usage{
 meth_aggregate(data, id, value, fun = mean, ...)
 }
 \arguments{
-\item{data}{a data.frame}
+\item{data}{a data.frame.}
 
-\item{id}{variable name, to be aggregated around}
+\item{id}{variable name, to be aggregated around.}
 
-\item{value}{variable name, contains the value to take mean over}
+\item{value}{variable name, contains the value to take mean over. Must be
+a single column.}
 
-\item{fun}{function, summary statistic function  to be calculated. Defaults
+\item{fun}{function, summary statistic function to be calculated. Defaults
 to `mean`.}
 
 \item{...}{Additional arguments for the function given to the argument fun.}
 }
 \value{
-data.frame
+A methcon object. Contains the aggregated data along with original
+    data.frame and variable selections.
 }
 \description{
-Aggregated
+Will take a data.frame and apply a function (`fun`) to `value` within the
+groups defined by the `id` column.
+}
+\details{
+Please note the ordering of the data will matter depending on the choice of
+aggregation function.
+}
+\examples{
+meth_aggregate(fake_methylation, id = gene, value = meth, fun = mean)
+
+meth_aggregate(fake_methylation, id = gene, value = meth, fun = var)
+
+# custom functions can be used as well
+mean_diff <- function(x) {
+  mean(diff(x))
+}
+
+meth_aggregate(fake_methylation, id = gene, value = meth, fun = mean_diff)
 }
